@@ -472,21 +472,28 @@ function Snallabot() {
                 </option>
             ))
             return (
-                <div>
-                    <label>
-                        Which EA account should we use?
-                        <select
-                            value={state.selectedPersona}
-                            onChange={(e) =>
-                                setState({ ...state, selectedPersona: e.target.value })
-                            }
-                        >
-                            {options}
-                        </select>
-                    </label>
-                    <button type="button" className="btn btn-primary" onClick={selectPersona}>
-                        Submit EA Account
-                    </button>
+                <div class="container">
+                    <div class="col">
+                        <br />
+                        <h2>
+                            Which EA account should we use?
+                        </h2>
+
+                        <div class="input-group mt-3">
+                            <select class="form-select"
+                                value={state.selectedPersona}
+                                onChange={(e) =>
+                                    setState({ ...state, selectedPersona: e.target.value })
+                                }
+                            >
+                                {options}
+                            </select>
+
+                            <button type="button" className="btn btn-primary" onClick={selectPersona}>
+                                Submit EA Account
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )
         case "LEAGUE_PICKER":
@@ -508,35 +515,35 @@ function Snallabot() {
                 return (
                     <div>
                         <div>No Madden Leagues found for this account</div>
-                        <button
-                            type="button"
-                            className="btn btn-warning"
-                            onClick={unlinkLeague}
-                        >
+                        <button type="button" className="btn btn-warning" onClick={unlinkLeague}>
                             Unlink
                         </button>
                     </div>
                 )
             }
             return (
-                <div>
-                    <label>
-                        Which league are we linking?
-                        <select
-                            value={state.selectedMaddenLeague}
-                            onChange={(e) =>
-                                setState({ ...state, selectedMaddenLeague: e.target.value })
-                            }
-                        >
-                            {leagueOptions}
-                        </select>
-                    </label>
-                    <button type="button" className="btn btn-primary" onClick={selectLeague}>
-                        Submit League
-                    </button>
-                    <button type="button" className="btn btn-warning" onClick={unlinkLeague}>
-                        Unlink
-                    </button>
+                <div class="container">
+                    <div class="col-lg-8">
+                        <br />
+                        <h2>
+                            Which league are we linking?
+                        </h2>
+
+                        <div class="input-group mt-3">
+                            <select class="form-select" value={state.selectedMaddenLeague} onChange={(e) => setState({ ...state, selectedMaddenLeague: e.target.value })} >
+                                {leagueOptions}
+                            </select>
+                            <button type="button" className="btn btn-primary" onClick={selectLeague}>
+                                Submit League
+                            </button>
+                            <button type="button" className="btn btn-warning" onClick={unlinkLeague}>
+                                Unlink
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                     
+                    </div>
                 </div>
             )
         case "LEAGUE_DASHBOARD":
@@ -730,90 +737,95 @@ function Snallabot() {
                 )
             })
             return (
-                <div className={styles.dashboard}>
-                    <header> Snallabot Dashboard </header>
+                <div className={styles.dashboard} class="container">
+                    <header> <h4>Snallabot Dashboard</h4> </header>
 
-                    <div className={styles.header}>
-                        <div>
-                            <div>{`${seasonType}, Year ${seasonInfo.calendarYear}`}</div>
-                            <div>
-                                {`Current Week: ${seasonInfo.weekTitle} ${seasonInfo.displayWeek > 0 ? seasonInfo.displayWeek : "" }`}
+                    <div class="row">
+
+                        <div class="col">
+                            <div className={styles.header}>
+                                <div>
+                                    <div>
+                                        {`${seasonType}, Year ${seasonInfo.calendarYear}`}
+                                    </div>
+                                    <div>
+                                        {`Current Week: ${seasonInfo.weekTitle} ${seasonInfo.displayWeek > 0 ? seasonInfo.displayWeek : ""}`}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <button type="button" className="btn btn-warning" onClick={unlinkLeague}>
-                                Unlink League
-                            </button>
-                        </div>
-                    </div>
 
-                    <div className={styles.exportTable}>
-                        <div>
+                        <div class="col-lg-6">
+                            <div className={styles.exportTable}>
 
-                            <div class="row">
-                                <div class="col">
+                                <div class="input-group">
                                     <select className={styles.weekPicker} class="form-select" value={state.exportOption} onChange={(e) => setState((s) => ({ ...s, exportOption: e.target.value }))} >
                                         {exportWeekOptions}
                                     </select>
-                                </div>
-
-                                <div class="col">
                                     <button type="button" className="btn btn-primary" onClick={onExport}> Export </button>
                                 </div>
+
+                                {state.exportedStatus === "SUCCESS" && (
+                                    <span className={styles.exportSuccess} class="badge text-bg-success">Success</span>
+                                )}
+
+                                {state.exportedStatus === "FAILURE" && (
+                                    <span className={styles.exportFailed} class="badge text-bg-danger">Failed</span>
+                                )}
+                                {state.exportedStatus === "FETCHING" && (
+                                    <spanc className={styles.exportFetching} class="badge text-bg-info">
+                                        Export in progress...
+                                    </spanc>
+                                )}
+                                {state.exportedStatus === "IN_PROGRESS" && (
+                                    <div className={styles.exportSuccess}>
+                                        All Weeks can take a bit, but it's in progress and should
+                                        finish up soon!
+                                    </div>
+                                )}
                             </div>
-
-
-                            {state.exportedStatus === "SUCCESS" && (
-                                <div className={styles.exportSuccess}>Success</div>
-                            )}
-
-                            {state.exportedStatus === "FAILURE" && (
-                                <div className={styles.exportFailed}>Failed</div>
-                            )}
-                            {state.exportedStatus === "FETCHING" && (
-                                <div className={styles.exportFetching}>
-                                    Export in progress...
-                                </div>
-                            )}
-                            {state.exportedStatus === "IN_PROGRESS" && (
-                                <div className={styles.exportSuccess}>
-                                    All Weeks can take a bit, but it's in progress and should
-                                    finish up soon!
-                                </div>
-                            )}
                         </div>
-                        <table>
-                            <thead>
+
+                        <div class="col mt-lg-3">
+                            <button type="button" className="btn btn-danger float-end" onClick={unlinkLeague}> Unlink League </button>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-sm caption-top">
+                            <caption>List of Export Url's</caption>
+                            <thead class="table-light">
                                 <tr>
-                                    <td>Url</td>
-                                    <td className={styles.exportboxes}> League Info </td>
-                                    <td className={styles.exportboxes}> Weekly Stats </td>
-                                    <td className={styles.exportboxes}> Rosters </td>
-                                    <td className={styles.exportboxes}> Auto Update </td>
-                                    <td className={styles.exportboxes}>
-                                        <button
-                                            type="button"
-                                            className="btn btn-success"
-                                            onClick={addExport}
-                                        >
-                                            Add Export
+                                    <th>Url</th>
+                                    <th className={styles.exportboxes}> League Info </th>
+                                    <th className={styles.exportboxes}> Weekly Stats </th>
+                                    <th className={styles.exportboxes}> Rosters </th>
+                                    <th className={styles.exportboxes}> Auto Update </th>
+                                    <th className={styles.exportboxes}>
+                                        <button type="button" className="btn btn-success" onClick={addExport} >
+                                            Add Export Url
                                         </button>
-                                    </td>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>{exportRows}</tbody>
                         </table>
                     </div>
-                    <table className={styles.gamesTable}>
-                        <thead>
-                            <tr>
-                                <td>Game</td>
-                                <td>Result</td>
-                                <td>Number of Times Played</td>
-                            </tr>
-                        </thead>
-                        <tbody>{rows}</tbody>
-                    </table>
+
+                    <div class="table-responsive">
+                        <table className={styles.gamesTable} class="table table-hover table-condensed caption-top">
+                            <caption>Schedule for {` ${seasonInfo.weekTitle} ${seasonInfo.displayWeek > 0 ? seasonInfo.displayWeek : ""}`}</caption>
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Game</th>
+                                    <th>Result</th>
+                                    <th>Number of Times Played</th>
+                                </tr>
+                            </thead>
+                            <tbody>{rows}</tbody>
+                        </table>
+                    </div>
                 </div>
             )
         default:
@@ -836,13 +848,21 @@ export default () => {
                 rel="stylesheet"
                 href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
                 integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-                crossOrigin="anonymous"
-            ></link>
+                crossOrigin="anonymous">
+            </link>
+
+            <link
+                rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.3/sandstone/bootstrap.min.css"
+                crossorigin="anonymous"
+                referrerpolicy="no-referrer">
+            </link>
+
             <script
                 src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
                 integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-                crossOrigin="anonymous"
-            ></script>
+                crossOrigin="anonymous">
+            </script>
+
             {Snallabot()}
         </div>
     )
